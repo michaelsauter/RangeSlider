@@ -114,6 +114,7 @@
             handleLeftPositionPixel = inputDeviceOffsetX - interactionData.offsetInHandle - slider.offset;
             handleLeftPositionPercentage = handleLeftPositionPixel / slider.slidingWidth * slider.handleMaxLeftPercentage;
             handleLeftPositionPercentage = Math.min(Math.max(handleLeftPositionPercentage, 0), slider.handleMaxLeftPercentage);
+            //console.log(handleLeftPositionPercentage);
             slider.$handle.css('left', handleLeftPositionPercentage + '%');
         },
         /**
@@ -121,11 +122,10 @@
          * Adjusts the handle position according to the slider configuration
          */
         inputDeviceUp: function() {
-            var handleLeftPercentage, value, percentageOfRange;
+            var handleOffset, value;
 
-            handleLeftPercentage = slider.$handle.css('left').substring(0, slider.$handle.css('left').length - 1);
-            percentageOfRange = handleLeftPercentage / slider.handleMaxLeftPercentage;
-            value = (slider.maxValue - slider.minValue) * percentageOfRange + slider.minValue;
+            handleOffset = slider.$handle.position().left / slider.slidingWidth;
+            value = (slider.maxValue - slider.minValue) * handleOffset + slider.minValue;
 
             methods.moveSliderToValue(slider, value, true, true);
 
