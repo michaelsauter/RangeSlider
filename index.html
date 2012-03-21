@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<title>Slider control example</title>
 	<style type="text/css" media="screen">
 	    body {
@@ -23,9 +24,15 @@
 	   }
 	</style>
 	<script src="jquery.min.js" charset="utf-8"></script>
-	<script src="slider.js" charset="utf-8"></script>
+	<script src="jquery.rangeslider.js" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        $('#x').slider('init');
+        $('#x').slider('set', 40, false);
+    })
+    </script>
 </head>
 <body>
-    <input id="x" type="range" min="10" max="50" step="10" />
+    <input id="x" type="range" min="10" max="50" step="10" value="30" />
 </body>
 </html>
