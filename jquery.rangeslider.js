@@ -115,12 +115,7 @@
          * @param inputDeviceOffsetX
          */
         inputDeviceMove: function(inputDeviceOffsetX) {
-            var handleLeftPositionPercentage, handleLeftPositionPixel;
-            handleLeftPositionPixel = inputDeviceOffsetX - interactionData.offsetInHandle - slider.offset;
-            handleLeftPositionPercentage = handleLeftPositionPixel / slider.slidingWidth * slider.handleMaxLeftPercentage;
-            handleLeftPositionPercentage = Math.min(Math.max(handleLeftPositionPercentage, 0), slider.handleMaxLeftPercentage);
-            //console.log(handleLeftPositionPercentage);
-            slider.$handle.css('left', handleLeftPositionPercentage + '%');
+            methods.moveHandleToPixel(inputDeviceOffsetX - interactionData.offsetInHandle - slider.offset);
         },
         /**
          * Unified handler for input device up
@@ -131,16 +126,46 @@
 
             handleOffset = slider.$handle.position().left / slider.slidingWidth;
             value = (slider.maxValue - slider.minValue) * handleOffset + slider.minValue;
-
-            methods.moveSliderToValue(slider, value, true, true);
+            methods.moveHandleToValue(slider, value, true, true);
 
             interactionData = {
                 dragged: false
             };
+        },
+        /**
+         * Event handler for "click"
+         * @param event
+         */
+        inputDeviceClick: function (event) {
+            var handleOffset, value;
+
+            if ($(event.target).hasClass('slider')) {
+                slider = methods.getSlider($(event.target).prev());
+
+                // move handle where clicked
+                methods.moveHandleToPixel(event.pageX - (slider.handleWidth / 2) - slider.offset);
+
+                // adjust position to step
+                handleOffset = slider.$handle.position().left / slider.slidingWidth;
+                value = (slider.maxValue - slider.minValue) * handleOffset + slider.minValue;
+                methods.moveHandleToValue(slider, value, true, true);
+            }
         }
     };
 
     methods = {
+        /**
+         * Moves the handle to specified pixel position
+         *
+         * @param position
+         */
+        moveHandleToPixel: function (position) {
+            var handleLeftPositionPercentage;
+
+            handleLeftPositionPercentage = position / slider.slidingWidth * slider.handleMaxLeftPercentage;
+            handleLeftPositionPercentage = Math.min(Math.max(handleLeftPositionPercentage, 0), slider.handleMaxLeftPercentage);
+            slider.$handle.css('left', handleLeftPositionPercentage + '%');
+        },
         /**
          * Initialize the slider with the value of the input field
          *
@@ -148,17 +173,17 @@
          * @param value
          */
         initSliderValue: function ($input, value) {
-            methods.moveSliderToValue(methods.getSlider($input), value, false, false);
+            methods.moveHandleToValue(methods.getSlider($input), value, false, false);
         },
         /**
-         * Move the slider to the specified value
+         * Move the handle to the specified value
          *
          * @param slider
          * @param value
          * @param updateInput If true, the input field is updated
          * @param animate If true, the move is animated
          */
-        moveSliderToValue: function (slider, value, updateInput, animate) {
+        moveHandleToValue: function (slider, value, updateInput, animate) {
             var handleLeftPercentage,
                 range = slider.maxValue - slider.minValue;
 
@@ -219,17 +244,19 @@
          * Attaches mouse or touch handlers, depending on the device
          */
         init: function() {
-            var $slider;
+            var $slider, $handle;
 
             if (!supportsRangeInput) {
                 this.hide();
                 $slider = $('<div class="slider"><div class="handle"></div></div>');
                 this.after($slider);
                 methods.initSliderValue(this, this.val());
+                $slider.on('click', handlers.inputDeviceClick);
+                $handle = $slider.find('div.handle');
                 if (!isTouchDevice) {
-                    $slider.find('div.handle').on('mousedown', handlers.mouseDown);
+                    $handle.on('mousedown', handlers.mouseDown);
                 } else {
-                    $slider.find('div.handle').get(0).addEventListener("touchstart", handlers.touchDown, false);
+                    $handle.get(0).addEventListener("touchstart", handlers.touchDown, false);
                 }
             }
 
@@ -251,7 +278,7 @@
         set: function(value, animate) {
             if (!supportsRangeInput) {
                 animate = !(typeof animate === 'undefined' || animate === false);
-                methods.moveSliderToValue(methods.getSlider($(this)), value, true, animate);
+                methods.moveHandleToValue(methods.getSlider($(this)), value, true, animate);
             } else {
                 $(this).val(value).trigger('change');
             }
