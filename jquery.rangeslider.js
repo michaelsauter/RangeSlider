@@ -227,11 +227,13 @@
                 this.after($slider);
                 methods.initSliderValue(this, this.val());
                 if (!isTouchDevice) {
-                    return $slider.find('div.handle').on('mousedown', handlers.mouseDown);
+                    $slider.find('div.handle').on('mousedown', handlers.mouseDown);
                 } else {
-                    return $slider.find('div.handle').get(0).addEventListener("touchstart", handlers.touchDown, false);
+                    $slider.find('div.handle').get(0).addEventListener("touchstart", handlers.touchDown, false);
                 }
             }
+
+            return this;
         },
         /**
          * Returns the current value
@@ -253,6 +255,8 @@
             } else {
                 $(this).val(value).trigger('change');
             }
+
+            return this;
         }
     };
 
