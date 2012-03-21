@@ -7,7 +7,9 @@
         var testRangeInput;
         testRangeInput = document.createElement('input');
         testRangeInput.setAttribute('type', 'range');
-        return testRangeInput.type === 'range';
+        testRangeInput.style.cssText = 'position:absolute;visibility:hidden;';
+        document.documentElement.appendChild(testRangeInput);
+        return testRangeInput.type === 'range' && testRangeInput.offsetHeight > 0;
     })();
 
     isTouchDevice = (function() {
