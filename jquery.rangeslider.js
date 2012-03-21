@@ -216,7 +216,7 @@
         init: function() {
             var $slider;
 
-            if (supportsRangeInput) {
+            if (!supportsRangeInput) {
                 this.hide();
                 $slider = $('<div class="slider"><div class="handle"></div></div>');
                 this.after($slider);
@@ -242,8 +242,12 @@
          * @param animate
          */
         set: function(value, animate) {
-            animate = !(typeof animate === 'undefined' || animate === false);
-            methods.moveSliderToValue(methods.getSlider($(this)), value, true, animate);
+            if (!supportsRangeInput) {
+                animate = !(typeof animate === 'undefined' || animate === false);
+                methods.moveSliderToValue(methods.getSlider($(this)), value, true, animate);
+            } else {
+                $(this).val(value).trigger('change');
+            }
         }
     };
 
