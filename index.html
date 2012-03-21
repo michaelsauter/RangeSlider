@@ -9,19 +9,51 @@
 	        margin: 0;
 	        padding: 20px;
 	    }
-	   .slider {
-	       background: #ddd;
-	       width: 200px;
-	       height: 50px;
-	       position: relative;
-	   }
-	   .handle {
-	       background: #ccc;
-	       width: 50px;
-	       height: 50px;
-	       position: absolute;
-	       cursor: pointer;
-	   }
+	    input[type="range"], .slider {
+            -webkit-appearance: none;
+	        background: #ddd;
+            border-radius: 25px;
+            -webkit-border-radius: 25px;
+            -moz-border-radius: 25px;
+            -o-border-radius: 25px;
+	        width: 200px;
+	        height: 50px;
+	        position: relative;
+	    }
+	    .handle {
+            -webkit-appearance: none;
+	        background: #ccc;
+            border-radius: 35px;
+            -webkit-border-radius: 35px;
+            -moz-border-radius: 35px;
+            -o-border-radius: 35px;
+            cursor: pointer;
+            height: 70px;
+            margin-top: -10px;
+	        position: absolute;
+            -webkit-touch-callout: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+            width: 70px;
+	    }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+	        background: #ccc;
+            border-radius: 35px;
+            -webkit-border-radius: 35px;
+            -moz-border-radius: 35px;
+            -o-border-radius: 35px;
+            cursor: pointer;
+            height: 70px;
+            margin-top: -10px;
+	        position: absolute;
+            -webkit-touch-callout: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+            width: 70px;
+	    }
 	</style>
 	<script src="jquery.min.js" charset="utf-8"></script>
 	<script src="jquery.rangeslider.js" charset="utf-8"></script>
