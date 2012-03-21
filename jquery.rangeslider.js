@@ -4,12 +4,11 @@
     var methods, actions, interactionData, slider, handlers, isTouchDevice, supportsRangeInput;
 
     supportsRangeInput = (function() {
-        var testRangeInput;
+        var testRangeInput, userAgent;
         testRangeInput = document.createElement('input');
         testRangeInput.setAttribute('type', 'range');
-        testRangeInput.style.cssText = 'position:absolute;visibility:hidden;';
-        document.documentElement.appendChild(testRangeInput);
-        return testRangeInput.type === 'range' && testRangeInput.offsetHeight > 0;
+        userAgent = navigator.userAgent.toLowerCase();
+        return testRangeInput.type === 'range' && userAgent.indexOf('android') < 0;
     })();
 
     isTouchDevice = (function() {
