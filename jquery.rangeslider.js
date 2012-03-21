@@ -69,6 +69,7 @@
             handlers.inputDeviceDown($(event.target), event.pageX);
             $(document).on('mousemove', handlers.mouseMove);
             $(document).on('mouseup', handlers.mouseUp);
+            return false;
         },
         /**
          * Event handler for "mousemove"
@@ -78,6 +79,7 @@
          */
         mouseMove: function(event) {
             handlers.inputDeviceMove(event.pageX);
+            return false;
         },
         /**
          * Event handler for "mouseup"
@@ -89,6 +91,7 @@
             $(document).off('mousemove', handlers.mouseMove);
             $(document).off('mouseup', handlers.mouseUp);
             handlers.inputDeviceUp();
+            return false;
         },
         /**
          * Unified handler for input device down
